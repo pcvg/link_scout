@@ -41,7 +41,7 @@ options = {
 `LinkScout::run([url, url1, url2], options)`
 
 ### Multiple with individual options
-`LinkScout::run([{ url: url }, { url: url1, option: value }])
+`LinkScout::run([{ url: url }, { url: url1, option: value }])`
 
 ## Options
 
