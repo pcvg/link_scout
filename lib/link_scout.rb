@@ -32,14 +32,15 @@ module LinkScout
       @options[:url] = args[0]
       run_single
     when single_hash?(args)
-      # run single
+      # run single as hash
       @options = merge_defaults(args[0])
       run_single
-    when multiple_with_shared_options?(args)
+    when multiple_shared?(args)
       # run multiple with shared options
       @options = merge_defaults(args[1])
-      run_multiple_with_shared_options(args[0])
-    when multiple?(args)
+      run_multiple_shared(args[0])
+    when multiple_individual?(args)
+      # run multiple with individual options
       run_multiple(args[0])
     else
       raise InvalidUsageError,  'Invalid usage of LinkScout::run; please check the Readme.md for further information'
@@ -134,13 +135,13 @@ module LinkScout
 
   # Usage:
   # LinkScout::run([url: url, url: url1], options)
-  def self.multiple?(args)
-    args[0].is_a?(Array)
+  def self.multiple_individual?(args)
+    args[0].is_a?(Array) && args[0][0].is_a?(Hash)
   end
 
   # Usage:
   # LinkScout::run([url, url1], options)
-  def self.multiple_with_shared_options?(args)
+  def self.multiple_shared?(args)
     args[0].is_a?(Array) && args[0].first.is_a?(String)
   end
 
@@ -155,7 +156,7 @@ module LinkScout
     end
   end
 
-  def self.run_multiple_with_shared_options urls
+  def self.run_multiple_shared urls
     urls.map do |url|
       @options[:url] = url
 
