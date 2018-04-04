@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
   spec.description = <<description
-    LinkScout takes URLs as input and returns a boolean when URL leads to a successful response (true) or not (false).
-    If an array of URLs is provided LinkScout returns the result as an Array like
+    LinkScout takes URLs and options as input and returns a boolean when URL leads to a successful response (true) or not (false).
+    If an array of URLs is provided LinkScout returns the result as an Array like [[url, boolean],[url, boolena]]
 
     Example 1: Run a single URL
     LinkScout::run('http://url1.com?p=http://deeplink.com', success: [200, 201], follow: 1, deeplink_param: 'p', pattern: /Welcome/ig, antipattern: /Error/ig)
@@ -33,11 +33,12 @@ Gem::Specification.new do |spec|
     url | URL - The URL to be checked ( only needed when multiple URLS with different options should be checked)
     success | String, Array - (Default: 200) - Array of HTTP Status Codes that are considered as successfull, eg. 200,202
     follow | Boolean (Default: true) - Follow all redirects and return checks only if the last response is successfull or not
+    limit | Integer (Default: 10) - Max. number of redirects to follow
     deeplink | URL - If provided check if the final response ended at the deeplink url
     deeplink_param | String - a param in the url that is considered to be the deeplink, if deeplink_param is found deeplink option is set automatically
     pattern | Regex - Return "success" if a given pattern can be found on the response.body, e.g. /^my-pattern/ig
     antipattern | Regex - Return "fail" if a given pattern can be found on the response.body, e.g. /^my-anti-pattern/ig
-  description
+description
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
