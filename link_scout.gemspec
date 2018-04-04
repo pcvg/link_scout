@@ -8,7 +8,6 @@ Gem::Specification.new do |spec|
   spec.version       = LinkScout::VERSION
   spec.authors       = ["Mike Peuerböck", "Ain Tohvri"]
   spec.email         = ["mike.peuerboeck@savings-united.com", "ain.tohvri@savings-united.com"]
-
   spec.summary       = %q{LinkScout is a tool to check if a given URL leads to a successfull response or not}
   spec.homepage      = "https://github.com/pcvg/link_scout"
   spec.license       = "MIT"
@@ -16,19 +15,20 @@ Gem::Specification.new do |spec|
     LinkScout takes URLs and options as input and returns a boolean when URL leads to a successful response (true) or not (false).
     If an array of URLs is provided LinkScout returns the result as an Array like [[url, boolean],[url, boolena]]
 
-    Example 1: Run a single URL
+    # Example 1: Run a single URL
     LinkScout::run('http://url1.com?p=http://deeplink.com', success: [200, 201], follow: 1, deeplink_param: 'p', pattern: /Welcome/ig, antipattern: /Error/ig)
+    LinkScout::run(url: 'http://url1.com?p=http://deeplink.com', success: 200)
 
-    Example 3: Run checks against multiple URLs with different options
+    # Example 3: Run checks against multiple URLs with different options
     LinkScout::run(['http://url1.com', 'http://url2.com'], success: [200, 201])
 
-    Example 2: Run checks against multiple URLs with different options
+    # Example 2: Run checks against multiple URLs with different options
     LinkScout::run(
-      {url: 'http://url1.com?p=http://deeplink.com'], success: [200, 201], deeplink_param: 'p'}
-      {url: 'http://redirect.com'], success: 301}
+      { url: 'http://url1.com?p=http://deeplink.com'], success: [200, 201], deeplink_param: 'p' }
+      { url: 'http://redirect.com'], success: 301 }
     )
 
-    Options:
+    # Options:
 
     Expects options with the following keys:
     - url | URL - The URL to be checked ( only needed when multiple URLS with different options should be checked)
