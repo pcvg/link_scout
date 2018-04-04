@@ -119,7 +119,7 @@ RSpec.describe LinkScout do
     end
   end
 
-  context 'Single' do
+  context 'Single URLs' do
     it 'succeeds with defaults' do
       expect(LinkScout::run('http://200.com')).to eq(true)
     end
@@ -148,7 +148,7 @@ RSpec.describe LinkScout do
     end
   end
 
-  context 'Multiple' do
+  context 'Multiple URLs with individual options' do
     it 'returns an array of [url, bool]' do
       expect(LinkScout::run([
           { url: 'http://200.com' },
