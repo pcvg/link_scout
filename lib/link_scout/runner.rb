@@ -11,7 +11,7 @@ module LinkScout
     end
 
     def run
-      case true
+      case
       when single?(@args)
         # run single
         @options = merge_defaults(@args[1])
