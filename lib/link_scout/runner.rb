@@ -6,7 +6,7 @@ module LinkScout
       follow: true
     }
 
-    def initialize args
+    def initialize(args)
       @args = args
     end
 
@@ -135,14 +135,14 @@ module LinkScout
       successfull_response?(fetch(@options[:url]))
     end
 
-    def run_multiple sets
+    def run_multiple(sets)
       sets.map do |set|
         @options = merge_defaults(set)
         [set[:url], run_single]
       end
     end
 
-    def run_multiple_shared urls
+    def run_multiple_shared(urls)
       urls.map do |url|
         @options[:url] = url
 
