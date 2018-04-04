@@ -92,10 +92,10 @@ module LinkScout
       @final_uri == params[@options[:deeplink_param]]
     end
 
-    # checks if pattern is matched
-    # - in case of pattern its a success if the response does match
-    # - in case of antipattern its a success if the response does NOT match.
-    # - In any case its a success if the pattern type is not set
+    # checks response body against given pattern options:
+    # - in any case its a success if the pattern type is not set
+    # - in case of :pattern its a success if the content does match
+    # - in case of :antipattern its a success if the content does NOT match.
     #
     # @params response, type
     # @return Bool
