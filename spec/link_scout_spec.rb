@@ -10,6 +10,7 @@ RSpec.describe LinkScout do
     stub_request(:get, 'http://301-forever.com').to_return(:status => 301, :headers => { 'Location' => "http://301-forever.com" })
     stub_request(:get, 'http://500.com').to_return(:status => 500)
     stub_request(:get, 'http://deep.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
+    stub_request(:get, 'http://deep-error.com').to_return(:status => 301, :headers => { 'Location' => "http://500.com" })
   end
 
   it 'has a version number' do
@@ -97,6 +98,12 @@ RSpec.describe LinkScout do
       end
       it 'fails if not matched' do
         expect(LinkScout::run('http://deep.com/?p=http%3A%2F%2F500.com', deeplink_param: 'p')).to eq(false)
+      end
+      it 'fails if matched but status == 500' do
+        expect(LinkScout::run('http://deep-error.com/?p=http%3A%2F%2F500.com', deeplink_param: 'p')).to eq(false)
+      end
+      it 'succeeds if matched and status == 500 but success == 500' do
+        expect(LinkScout::run('http://deep-error.com/?p=http%3A%2F%2F500.com', deeplink_param: 'p', success: 500)).to eq(true)
       end
     end
 
