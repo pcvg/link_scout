@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "link_scout"
   spec.version       = LinkScout::VERSION
   spec.authors       = ["Mike Peuerböck", "Ain Tohvri"]
-  spec.email         = ["mike.peuerboeck@savings-united.com", "ain.tohvry@savings-united.com"]
+  spec.email         = ["mike.peuerboeck@savings-united.com", "ain.tohvri@savings-united.com"]
 
   spec.summary       = %q{LinkScout is a tool to check if a given URL leads to a successfull response or not}
   spec.homepage      = "https://github.com/pcvg/link_scout"
