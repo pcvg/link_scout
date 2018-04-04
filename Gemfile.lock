@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     link_scout (0.1.0)
+      rack (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -45,11 +46,10 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   link_scout!
-  pry
-  rack
+  pry (~> 0.11)
   rake (~> 10.0)
   rspec (~> 3.0)
-  webmock
+  webmock (~> 3.3)
 
 BUNDLED WITH
    1.16.1
