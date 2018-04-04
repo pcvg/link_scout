@@ -34,7 +34,6 @@ RSpec.describe LinkScout do
       it 'succeeds' do
         expect(LinkScout::run(url: 'http://200.com')).to eq(true)
       end
-
       it 'throws exception if not set' do
         expect{LinkScout::run({})}.to raise_error(LinkScout::InvalidUsageError)
       end
@@ -44,11 +43,9 @@ RSpec.describe LinkScout do
       it 'succeeds with defaults' do
         expect(LinkScout::run('http://200.com')).to eq(true)
       end
-
       it 'succeeds when matched' do
         expect(LinkScout::run('http://500.com', success: 500)).to eq(true)
       end
-
       it 'fails when not matched' do
         expect(LinkScout::run('http://500.com', success: 301)).to eq(false)
       end
@@ -70,11 +67,9 @@ RSpec.describe LinkScout do
       it 'succeeds to stop loop with default' do
         expect_redirect_loop_error
       end
-
       it 'succeeds to stop loop when set' do
         expect_redirect_loop_error(limit: 1)
       end
-
       it 'succeeds to stop loop when nil' do
         expect_redirect_loop_error(limit: nil)
       end
@@ -135,7 +130,7 @@ RSpec.describe LinkScout do
     end
   end
 
-  context 'Multiple with shared options' do
+  context 'Multiple URLs with shared options' do
     it 'returns an array of [url, bool]' do
       expect(LinkScout::run(
         [
