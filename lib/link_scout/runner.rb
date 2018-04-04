@@ -6,53 +6,44 @@ module LinkScout
       follow: true
     }
 
-    # takes URLs and options as input and returns a boolean when URL leads to a successful response (true) or not (false).
-    # If an array of URLs is provided LinkScout returns the result as an Array like [[url, boolean],[url, boolena]]
-    #
-    # Expects options with the following keys:
-    # - url | URL - The URL to be checked ( only needed when multiple URLS with different options should be checked)
-    # - success | String, Array - (Default: 200) - Array of HTTP Status Codes that are considered as successfull, eg. 200,202
-    # - follow | Boolean (Default: true) - Follow all redirects and return checks only if the last response is successfull or not
-    # - limit | Integer (Default: 10) - Max. number of redirects to follow
-    # - target | URL - If provided check if the final response ended at the target url
-    # - deeplink_param | String - a param in the url that is considered to be the deeplink, if deeplink_param is found deeplink option is set automatically
-    # - pattern | Regex - Return "success" if a given pattern can be found on the response.body, e.g. /^my-pattern/ig
-    # - antipattern | Regex - Return "fail" if a given pattern can be found on the response.body, e.g. /^my-anti-pattern/ig
-    def self.run(*args)
+    def initialize args
+      @args = args
+    end
+
+    def run
       case true
-      when single?(args)
+      when single?(@args)
         # run single
-        @options = merge_defaults(args[1])
-        @options[:url] = args[0]
+        @options = merge_defaults(@args[1])
+        @options[:url] = @args[0]
         run_single
-      when single_hash?(args)
+      when single_hash?(@args)
         # run single as hash
-        @options = merge_defaults(args[0])
+        @options = merge_defaults(@args[0])
         run_single
-      when multiple_shared?(args)
+      when multiple_shared?(@args)
         # run multiple with shared options
-        @options = merge_defaults(args[1])
-        run_multiple_shared(args[0])
-      when multiple_individual?(args)
+        @options = merge_defaults(@args[1])
+        run_multiple_shared(@args[0])
+      when multiple_individual?(@args)
         # run multiple with individual options
-        run_multiple(args[0])
+        run_multiple(@args[0])
       else
-        raise InvalidUsageError,  'Invalid usage of LinkScout::run; please check the Readme.md for further information'
+        raise InvalidUsageError,  'Invalid usage of LinkScout::run. Please consult the README for help'
       end
     end
 
     private
 
-    def self.merge_defaults(options)
+    def merge_defaults(options)
       return DEFAULT_OPTIONS unless options.is_a?(Hash)
 
       DEFAULT_OPTIONS.merge(options)
     end
 
-
     # Fetches uri_str and tries limit times in case of redirections.
     # @return response
-    def self.fetch(uri_str, limit=nil)
+    def fetch(uri_str, limit=nil)
       # set starting limit if limit is not set
       limit ||= @options[:limit].to_i
 
@@ -73,7 +64,7 @@ module LinkScout
       end
     end
 
-    def self.successfull_response?(response)
+    def successfull_response?(response)
       status_code_success?(response) && \
       pattern_success?(response, :pattern) && \
       pattern_success?(response, :antipattern) && \
@@ -81,33 +72,34 @@ module LinkScout
       deeplink_success?
     end
 
-    def self.follow_redirects?
+    def follow_redirects?
       @options[:follow] == true
     end
 
-    def self.status_code_success?(response)
+    def status_code_success?(response)
       [*@options[:success]].map(&:to_s).include?(response.code)
     end
 
-    def self.target_success?
+    def target_success?
       return true if @options[:target].nil?
       @final_uri == @options[:target]
     end
 
-    def self.deeplink_success?
+    def deeplink_success?
       return true if @options[:deeplink_param].nil?
       uri = URI.parse(@options[:url])
       params = Rack::Utils.parse_nested_query(uri.query)
       @final_uri == params[@options[:deeplink_param]]
     end
 
-    # checks if pattern is matched, in case of antipattern its a success if
-    # the response does not match. In any case its a success if the pattern type
-    # is not set
+    # checks if pattern is matched
+    # - in case of pattern its a success if the response does match
+    # - in case of antipattern its a success if the response does NOT match.
+    # - In any case its a success if the pattern type is not set
     #
     # @params response, type
     # @return Bool
-    def self.pattern_success?(response, type)
+    def pattern_success?(response, type)
       return true if @options[type].nil?
       success = @options[type].match?(response.body)
 
@@ -117,40 +109,40 @@ module LinkScout
 
     # Usage:
     # LinkScout::run(url, options)
-    def self.single?(args)
+    def single?(args)
       args[0].is_a?(String)
     end
 
     # Usage:
     # LinkScout::run(url: url)
-    def self.single_hash?(args)
+    def single_hash?(args)
       args[0].is_a?(Hash) && !args[0][:url].nil?
     end
 
     # Usage:
     # LinkScout::run([url: url, url: url1], options)
-    def self.multiple_individual?(args)
+    def multiple_individual?(args)
       args[0].is_a?(Array) && args[0][0].is_a?(Hash)
     end
 
     # Usage:
     # LinkScout::run([url, url1], options)
-    def self.multiple_shared?(args)
+    def multiple_shared?(args)
       args[0].is_a?(Array) && args[0].first.is_a?(String)
     end
 
-    def self.run_single
+    def run_single
       successfull_response?(fetch(@options[:url]))
     end
 
-    def self.run_multiple sets
+    def run_multiple sets
       sets.map do |set|
         @options = merge_defaults(set)
         [set[:url], run_single]
       end
     end
 
-    def self.run_multiple_shared urls
+    def run_multiple_shared urls
       urls.map do |url|
         @options[:url] = url
 

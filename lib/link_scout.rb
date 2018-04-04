@@ -19,7 +19,7 @@ module LinkScout
   # - pattern | Regex - Return "success" if a given pattern can be found on the response.body, e.g. /^my-pattern/ig
   # - antipattern | Regex - Return "fail" if a given pattern can be found on the response.body, e.g. /^my-anti-pattern/ig
   def self.run(*args)
-    LinkScout::Runner.new().run(args)
+    LinkScout::Runner.new(args).run
   end
 end
 
