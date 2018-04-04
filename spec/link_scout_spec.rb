@@ -152,7 +152,7 @@ RSpec.describe LinkScout do
   context 'Multiple' do
     it 'returns an array of [url, bool]' do
       expect(LinkScout::run([
-          { url: 'http://200.com'},
+          { url: 'http://200.com' },
           { url: 'http://500.com', success: 500 },
           { url: 'http://301.com', success: 500 },
           { url: 'http://deep.com?p=http://200.com', deeplink_param: 'p' },

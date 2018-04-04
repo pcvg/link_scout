@@ -127,7 +127,7 @@ module LinkScout
   end
 
   # Usage:
-  # LinkScout::run(url, options)
+  # LinkScout::run(url: url)
   def self.single_hash?(args)
     args[0].is_a?(Hash) && !args[0][:url].nil?
   end
