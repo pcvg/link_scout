@@ -34,13 +34,14 @@ options = {
 ```
 ### Single URLS
 `LinkScout::run(url, options)`
+
 `LinkScout::run(url: url, option: value)`
 
 ### Multiple with shared options
 `LinkScout::run([url, url1, url2], options)`
 
 ### Multiple with individual options
-`LinkScout::run([{ url: url }, { url: url1, option: value }])`
+`LinkScout::run([{ url: url }, { url: url1, option: value }])
 
 ## Options
 
