@@ -33,15 +33,23 @@ options = {
 }
 ```
 ### Single URLS
-`ruby LinkScout::run(url, options)`
+```ruby
+  LinkScout::run(url, options)
+```
 
-`ruby LinkScout::run(url: url, option: value)`
+```ruby
+  LinkScout::run(url: url, option: value)
+```
 
 ### Multiple with shared options
-`ruby LinkScout::run([url, url1, url2], options)`
+```ruby
+  LinkScout::run([url, url1, url2], options)
+```
 
 ### Multiple with individual options
-`ruby LinkScout::run([{ url: url }, { url: url1, option: value }])`
+```ruby
+  LinkScout::run([{ url: url }, { url: url1, option: value }])
+```
 
 ## Development
 
