@@ -9,8 +9,7 @@ RSpec.describe LinkScout do
     stub_request(:get, 'http://301.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
     stub_request(:get, 'http://301-forever.com').to_return(:status => 301, :headers => { 'Location' => "http://301-forever.com" })
     stub_request(:get, 'http://500.com').to_return(:status => 500)
-    # stub_request(:get, 'http://deep.com').with(query: { 'p' => 'http://200.com' }).to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
-    stub_request(:get, 'deep.com/').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
+    stub_request(:get, 'http://deep.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
   end
 
   it 'has a version number' do
