@@ -21,7 +21,7 @@ Or install it yourself as:
     $ gem install link_scout
 
 ## Usage
-
+```
 options = {
   success: 200,
   follow: true,
@@ -31,16 +31,16 @@ options = {
   pattern: /abc/i,
   antipattern: /cde/i,
 }
-
+```
 ### Single URLS
-LinkScout::run(url, options)
-LinkScout::run(url: url, option: value)
+`LinkScout::run(url, options)`
+`LinkScout::run(url: url, option: value)`
 
 ### Multiple with shared options
-LinkScout::run([url, url1, url2], options)
+`LinkScout::run([url, url1, url2], options)`
 
 ### Multiple with individual options
-LinkScout::run([{ url: url }, { url: url1, option: value }])
+`LinkScout::run([{ url: url }, { url: url1, option: value }])`
 
 ## Options
 
