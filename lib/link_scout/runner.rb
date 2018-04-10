@@ -46,15 +46,20 @@ module LinkScout
     def fetch(uri_str, limit=nil)
       # set starting limit if limit is not set
       limit ||= @options[:limit].to_i
+      retry_count ||= 2
 
-      raise RedirectLoopError, 'HTTP redirect too deep' if limit == 0
+      # keeps track of previous url in case redirects are done
+      @final_uri ||= nil
 
-      url = URI.parse(uri_str)
-      path = !url.path.empty? ? url.path : '/'
-      req = Net::HTTP::Get.new(path)
-      response = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+      raise RedirectLoopError, 'HTTP redirect too deep for ' + uri_str if limit == 0
+
+      #uri_str = response['location']
+      url = URI.parse(sanitize_uri(uri_str))
+      req = Net::HTTP::Get.new(url, user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36')
+      response = Net::HTTP.start(url.host, url.port, use_ssl: url.scheme == 'https', read_timeout: 30) { |http| http.request(req) }
 
       @final_uri = uri_str
+
       case response
       when Net::HTTPRedirection
         return response unless follow_redirects?
@@ -62,9 +67,49 @@ module LinkScout
       else
         response
       end
+
+    rescue Errno::ETIMEDOUT
+      [response, true]
+    rescue Net::ReadTimeout => e
+      retry_count -= 1
+      p "Net::ReadTimeout - retry #{retry_count} fetch url " + uri_str and retry if retry_count > 0
+
+      [response, true]
+    rescue NoMethodError => e
+      binding.pry
+      [response, true]
+    rescue SocketError
+      retry_count -= 1
+      p "SocketError - retry #{retry_count} fetch url " + uri_str and retry if retry_count > 0
+
+      [response, true]
+    rescue URI::InvalidURIError
+      [response, true]
     end
 
-    def successfull_response?(response)
+    def sanitize_uri(uri_str)
+      return scheme_and_domain(@final_uri) if ['/', '//'].include? uri_str
+      return scheme_and_domain(@final_uri) + uri_str if uri_str.start_with?('/')
+      return scheme_and_domain(@final_uri) + uri_str if uri_str.start_with?('?')
+
+      uri_str
+    end
+
+    def scheme_and_domain(uri_str)
+      uri = URI.parse(uri_str)
+      uri.path  = ''
+      uri.query = nil
+
+      # ensure that multiple relative redirects still still know their domain
+      if uri.to_s == ''
+        return @last_scheme_and_domain
+      end
+
+      @last_scheme_and_domain = uri.to_s
+    end
+
+    def successfull_response?(response, invalid=false)
+      !invalid && \
       status_code_success?(response) && \
       pattern_success?(response, :pattern) && \
       pattern_success?(response, :antipattern) && \
@@ -132,7 +177,7 @@ module LinkScout
     end
 
     def run_single
-      successfull_response?(fetch(@options[:url]))
+      successfull_response?(*fetch(@options[:url]))
     end
 
     def run_multiple(sets)

@@ -6,11 +6,17 @@ RSpec.describe LinkScout do
 
   before do
     stub_request(:get, 'http://200.com').to_return(status: 200, body: "abc", headers: {})
+    stub_request(:get, 'http://200.com?test=abc').to_return(status: 200, body: "abc", headers: {})
+    stub_request(:get, 'https://ssl.com').to_return(status: 200, body: "abc", headers: {})
     stub_request(:get, 'http://301.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
     stub_request(:get, 'http://301-forever.com').to_return(:status => 301, :headers => { 'Location' => "http://301-forever.com" })
+    stub_request(:get, 'http://301-home.com/path').to_return(:status => 301, :headers => { 'Location' => "/" })
+    stub_request(:get, 'http://301-home.com').to_return(:status => 200)
     stub_request(:get, 'http://500.com').to_return(:status => 500)
-    stub_request(:get, 'http://deep.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
-    stub_request(:get, 'http://deep-error.com').to_return(:status => 301, :headers => { 'Location' => "http://500.com" })
+    stub_request(:get, 'http://500[#]').to_return(:status => 500)
+    stub_request(:get, 'http://deep.com?p=http://200.com').to_return(:status => 301, :headers => { 'Location' => "http://200.com" })
+    stub_request(:get, 'http://deep.com?p=http://500.com').to_return(:status => 301, :headers => { 'Location' => "http://500.com" })
+    stub_request(:get, 'http://deep-error.com?p=http%3A%2F%2F500.com').to_return(:status => 301, :headers => { 'Location' => "http://500.com" })
   end
 
   it 'has a version number' do
@@ -28,6 +34,25 @@ RSpec.describe LinkScout do
   it 'succeeds on reasonable redirects' do
     expect(LinkScout::run('http://301.com')).to eq(true)
   end
+
+  it 'succceeds with https' do
+    expect(LinkScout::run('https://ssl.com')).to eq(true)
+  end
+
+  it 'succceeds with query params' do
+    expect(LinkScout::run('http://200.com?test=abc')).to eq(true)
+  end
+
+  it 'succceeds if redirected to /' do
+    expect(LinkScout::run('http://301-home.com/path')).to eq(true)
+  end
+
+  it 'fails if URI throws URI::InvalidURIError' do
+    expect{URI('http://500[#]')}.to raise_error(URI::InvalidURIError)
+    expect(LinkScout::run('http://500[#]')).to eq(false)
+  end
+
+  xit 'succeeds even with multiple relative redirects' do; end
 
   context 'options' do
     context ':url' do
@@ -137,14 +162,16 @@ RSpec.describe LinkScout do
           'http://200.com',
           'http://301.com',
           'http://500.com',
-          'http://deep.com?p=abc'
+          'http://deep.com?p=http://200.com',
+          'http://deep.com?p=http://500.com'
         ]
       )).to eq(
         [
           ['http://200.com', true],
           ['http://301.com', true],
           ['http://500.com', false],
-          ['http://deep.com?p=abc', true]
+          ['http://deep.com?p=http://200.com', true],
+          ['http://deep.com?p=http://500.com', false]
         ]
       )
     end
