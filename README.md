@@ -1,8 +1,11 @@
 # LinkScout
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/link_scout`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to LinkScout gem!
 
-TODO: Delete this and the text above, and describe your gem
+LinkScout helps users to find broken links by analysing response code or body.
+
+It can take single or multiple URLs as input making it easy to handle link checking in larger batches.
+It can also follow links through redirect chains making sure links eventually work for your users.
 
 ## Installation
 
@@ -21,35 +24,35 @@ Or install it yourself as:
     $ gem install link_scout
 
 ## Usage
-```ruby
-options = {
-  success: 200,
-  follow: true,
-  limit: 1,
-  target: 'http://target.com',
-  deeplink_param: 'deeplink',
-  pattern: /abc/i,
-  antipattern: /cde/i,
-}
-```
-### Single URLS
-```ruby
-  LinkScout::run(url, options)
-```
+  ```ruby
+  options = {
+    success: 200,
+    follow: true,
+    limit: 1,
+    target: 'http://target.com',
+    deeplink_param: 'deeplink',
+    pattern: /abc/i,
+    antipattern: /cde/i,
+  }
+  ```
+  ### Single URLS
+  ```ruby
+    LinkScout::run(url, options)
+  ```
 
-```ruby
-  LinkScout::run(url: url, option: value)
-```
+  ```ruby
+    LinkScout::run(url: url, option: value)
+  ```
 
-### Multiple with shared options
-```ruby
-  LinkScout::run([url, url1, url2], options)
-```
+  ### Multiple with shared options
+  ```ruby
+    LinkScout::run([url, url1, url2], options)
+  ```
 
-### Multiple with individual options
-```ruby
-  LinkScout::run([{ url: url }, { url: url1, option: value }])
-```
+  ### Multiple with individual options
+  ```ruby
+    LinkScout::run([{ url: url }, { url: url1, option: value }])
+  ```
 
 ## Development
 

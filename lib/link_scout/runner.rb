@@ -13,20 +13,16 @@ module LinkScout
     def run
       case
       when single?(@args)
-        # run single
         @options = merge_defaults(@args[1])
         @options[:url] = @args[0]
         run_single
       when single_hash?(@args)
-        # run single as hash
         @options = merge_defaults(@args[0])
         run_single
       when multiple_shared?(@args)
-        # run multiple with shared options
         @options = merge_defaults(@args[1])
         run_multiple_shared(@args[0])
       when multiple_individual?(@args)
-        # run multiple with individual options
         run_multiple(@args[0])
       else
         raise InvalidUsageError,  'Invalid usage of LinkScout::run. Please consult the README for help'
@@ -76,7 +72,6 @@ module LinkScout
 
       [response, true]
     rescue NoMethodError => e
-      binding.pry
       [response, true]
     rescue SocketError
       retry_count -= 1
@@ -100,7 +95,7 @@ module LinkScout
       uri.path  = ''
       uri.query = nil
 
-      # ensure that multiple relative redirects still still know their domain
+      # ensure that multiple relative redirects still know their domain
       if uri.to_s == ''
         return @last_scheme_and_domain
       end

@@ -12,8 +12,12 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/pcvg/link_scout"
   spec.license       = "MIT"
   spec.description = <<description
-    LinkScout takes URLs and options as input and returns a boolean when URL leads to a successful response (true) or not (false).
-    If an array of URLs is provided LinkScout returns the result as an Array like [[url, boolean],[url, boolena]]
+    Welcome to LinkScout gem!
+
+    LinkScout helps users to find broken links by analysing response code or body.
+
+    It can take single or multiple URLs as input making it easy to handle link checking in larger batches.
+    It can also follow links through redirect chains making sure links eventually work for your users.
 
     # Example 1: Run a single URL
     LinkScout::run('http://url1.com?p=http://deeplink.com', success: [200, 201], follow: 1, deeplink_param: 'p', pattern: /Welcome/ig, antipattern: /Error/ig)
