@@ -1,8 +1,11 @@
 # LinkScout
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/link_scout`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to LinkScout gem!
 
-TODO: Delete this and the text above, and describe your gem
+LinkScout helps users to find broken links by analysing response code or body.
+
+It can take single or multiple URLs as input making it easy to handle link checking in larger batches.
+It can also follow links through redirect chains making sure links eventually work for your users.
 
 ## Installation
 
@@ -21,8 +24,35 @@ Or install it yourself as:
     $ gem install link_scout
 
 ## Usage
+  ```ruby
+  options = {
+    success: 200,
+    follow: true,
+    limit: 1,
+    target: 'http://target.com',
+    deeplink_param: 'deeplink',
+    pattern: /abc/i,
+    antipattern: /cde/i,
+  }
+  ```
+  ### Single URLS
+  ```ruby
+    LinkScout::run(url, options)
+  ```
 
-TODO: Write usage instructions here
+  ```ruby
+    LinkScout::run(url: url, option: value)
+  ```
+
+  ### Multiple with shared options
+  ```ruby
+    LinkScout::run([url, url1, url2], options)
+  ```
+
+  ### Multiple with individual options
+  ```ruby
+    LinkScout::run([{ url: url }, { url: url1, option: value }])
+  ```
 
 ## Development
 
@@ -32,7 +62,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/link_scout. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/pcvg/link_scout. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +70,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the LinkScout project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/link_scout/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the LinkScout project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/pcvg/link_scout/blob/master/CODE_OF_CONDUCT.md).
