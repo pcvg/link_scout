@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    link_scout (0.1.0)
+    link_scout (0.0.1)
       rack (~> 2.0)
 
 GEM
