@@ -1,4 +1,4 @@
-# LinkScout [![Build Status](https://travis-ci.org/pcvg/link_scout.svg?branch=master)](https://travis-ci.org/pcvg/link_scout) [![codecov](https://codecov.io/gh/pcvg/link_scout/branch/master/graph/badge.svg)](https://codecov.io/gh/pcvg/link_scout)
+# LinkScout [![Build Status](https://travis-ci.org/pcvg/link_scout.svg?branch=master)](https://travis-ci.org/pcvg/link_scout) [![codecov](https://codecov.io/gh/pcvg/link_scout/branch/master/graph/badge.svg)](https://codecov.io/gh/pcvg/link_scout) [![Gem Version](https://badge.fury.io/rb/link_scout.svg)](http://badge.fury.io/rb/link_scout)
 
 Welcome to LinkScout gem!
 
