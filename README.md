@@ -1,4 +1,4 @@
-# LinkScout
+# LinkScout [![Build Status](https://travis-ci.org/pcvg/link_scout.svg?branch=master)](https://travis-ci.org/pcvg/link_scout)
 
 Welcome to LinkScout gem!
 

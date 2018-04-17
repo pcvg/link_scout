@@ -1,5 +1,7 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.4.1
-before_install: gem install bundler -v 1.16.1
+  - 2.4.4
+notifications:
+  slack:
+    secure: YmeOXgXDR1wfNN1bU00zbNj6DpI8cvmnLOruIhqxwH6MUsTudjgDUyw7vwMe2fBVCE+J3lPZQmu32Edbwu6AP4R0LcwXdRvKux7CCg47MZn3dfEriPnPNdmdfclHAmOtprL4k7AAzGP8PK7001+fQUOSFQ6ECnFSQsNizf5Fl2QmHcyaMteV7Q+VHZF4Xqsrj7NYac1Aw495KNHjoSLW8FaSG50e1czH3cxb7JQmP+OO3K1VqjxhiXP9Et/DY6YbhnJPA8U56QI5KEQeAFXVKtkNSKFSgZteVuxzkHdd68P9jmkPNftVZ/eZxHYvIfalujBdzhIbv0zOiqR/w53lF71KPYsr4y/YC9Z5TaDdsPRbLHvBR37+o5Z4rkp4Xhb5WxaX3eZvmsQTvsVSZiIn00xFSAXxo1DbTxIgkbei/e2oserrn0JRU15j15FKrBLvqPrgun5P+L6lwUhZlH2CISvyT7DG9hKmouuDX+YCrejKQfzOIbpV9eIpkoZat3FQa4kE10/hDwhYBJa+7FLLiIP5iLqy/mdGoCtsIMqYayJ1ae6iUAFWBJx043Tm3Wmd0V/cG7I7Flw8/DunhGiK+CzgfA0FSrJLFBYqow0+i80xrEgdXFjWgLKBmMxDmnVjdIJP3JlJh92OrutXxltr0/v+MHsRhPw5KMjLatHx1FQ=
