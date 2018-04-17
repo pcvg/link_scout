@@ -37,21 +37,21 @@ Or install it yourself as:
   ```
   ### Single URLS
   ```ruby
-    LinkScout::run(url, options)
+  LinkScout::run(url, options)
   ```
 
   ```ruby
-    LinkScout::run(url: url, option: value)
+  LinkScout::run(url: url, option: value)
   ```
 
   ### Multiple with shared options
   ```ruby
-    LinkScout::run([url, url1, url2], options)
+  LinkScout::run([url, url1, url2], options)
   ```
 
   ### Multiple with individual options
   ```ruby
-    LinkScout::run([{ url: url }, { url: url1, option: value }])
+  LinkScout::run([{ url: url }, { url: url1, option: value }])
   ```
 
 ## Development
