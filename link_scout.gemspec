@@ -21,7 +21,7 @@ description
   end
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rack", "~> 2.0.6"
+  spec.add_dependency "rack", ">= 2.0.6", "< 2.3.0"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
